@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import os, shutil
+import itertools
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db.models import signals
 from django.db.models.fields.files import ImageField, ImageFileDescriptor
 
-from forms import StdImageFormField
-from widgets import DelAdminFileWidget
+from .forms import StdImageFormField
+from .widgets import DelAdminFileWidget
 
 
 class ThumbnailField(object):
@@ -67,7 +68,7 @@ class StdImageField(ImageField):
         for att_name, att in (('size', size),
                               ('thumbnail_size', thumbnail_size)):
             if att and isinstance(att, (tuple, list)):
-                setattr(self, att_name, dict(map(None, params_size, att)))
+                setattr(self, att_name, dict(itertools.zip_longest(params_size, att)))
             else:
                 setattr(self, att_name, None)
         super(StdImageField, self).__init__(*args, **kwargs)
