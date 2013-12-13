@@ -205,7 +205,7 @@ class StdImageField(ImageField):
         if value:
             return super(StdImageField, self).get_db_prep_save(value, connection=connection)
         else:
-            return u''
+            return ''
 
     def contribute_to_class(self, cls, name):
         """Call methods for generating all operations on specified signals"""
